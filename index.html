@@ -1,0 +1,182 @@
+<html>
+
+<head>
+
+  <title>Tableau Identity Store Configuration Tool</title>
+
+</head>
+
+<body class="bg-light">
+
+
+  <div class="container">
+
+    <ul class="nav nav-tabs" id="menu" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+          aria-selected="true">Basic Connection</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+          aria-selected="false">Kerberos Connection</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages"
+          aria-selected="false">User Query</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
+          aria-selected="false">Group Query</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
+          aria-selected="false">Miscellaneous</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
+          aria-selected="false">Finalize</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+        <div class="py-5 text-center">
+          <h2>Tableau Identity Store Configuration Tool</h2>
+          <p class="lead">This tool will take you through all of the options and create a JSON file to use during
+            installation.</p>
+        </div>
+
+
+        <div class="col-md-8 order-md-1 mx-auto id=" basicConnection">
+          <h4 class="mb-3">LDAP Connection Settings</h4>
+          <form class="needs-validation" id='idstoreform' novalidate >
+            <div class="mb-3">
+
+              <label for="hostname">LDAP Server Address
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Server address.  Most often it will be in the standard dot notation but an ip address is also valid.">
+              </label>
+              <input type="text" class="form-control" id="hostname" placeholder="ldap.mycompany.com" required>
+              <div class="invalid-feedback">
+                Please enter your valid LDAP serer address.
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+
+                <label for="communicationsType">Binding Port</label>
+                <div class="custom-control custom-radio">
+                  <input id="port" name="communicationsType" type="radio" class="custom-control-input" value='port' checked required>
+                  <label class="custom-control-label" for="port">Simple Bind</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input id="sslPort" name="communicationsType" type="radio" class="custom-control-input" value='sslPort' required>
+                  <label class="custom-control-label" for="sslPort">LDAPS/Secure (SSL)</label>
+                </div>
+
+
+
+              </div>
+              <div class="col-md-6 mb-3">
+                <div class="mb-3">
+                  <label for="portNumber">Port Number</label>
+                  <input type="number" class="form-control" id="portNumber" placeholder="Default is LDAPS=636 or Simple=389"
+                    required>
+                  <div class="invalid-feedback" style="width: 100%;">
+                    Port is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div class="mb-3">
+              <label for="domain">LDAP Domain</label>
+              <input type="text" class="form-control" id="domain" placeholder="mycompany.com" required>
+              <div class="invalid-feedback" style="width: 100%;">
+                The LDAP domain is required.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="root">Root <span class="text-muted">(Optional)</span>
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Root.  If you do not use a dc component in the LDAP root or you want to specify a more complex root you need to set the LDAP root. Use the 'o=my,u=root' format. For example, for the domain, example.lan, the root would be 'o=example,u=lan'.">
+
+              </label>
+              <input type="text" class="form-control" id="root" placeholder="If not dc=mycompany,dc=com enter your root entry.">
+              <div class="invalid-feedback">
+                Please enter a valid root.
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="username">LDAP User Name</label>
+                <input type="text" class="form-control" id="username" placeholder="" required>
+                <div class="invalid-feedback">
+                  Name is required
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="password">Password</label>
+                <input type="text" class="form-control" id="password" placeholder="" required>
+                <div class="invalid-feedback">
+                  Password is required
+                </div>
+              </div>
+            </div>
+
+
+            <hr class="mb-4">
+            
+          </form>
+          <button class="btn btn-primary btn-lg btn-block"  id='idstoreformSubmit'>Continue to Kerberos Connection Information</button>
+        </div>
+      </div>
+
+    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      .xx..
+    
+    </div>
+    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">.ee..</div>
+    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">.dd..</div>
+  </div>
+
+
+
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017-2018 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+  </div>
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <!-- include Bootstrap CDN Files-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="main.js"></script>
+
+
+
+
+ 
+</body>
+
+</html>
