@@ -77,7 +77,7 @@
         $("#groupBaseDnNote").html('If not ' + groupform.groupBaseDn.value + " input appropriate value.  Must include root entry.")
 
         kerberosform.kerberosPrincipal.value = "<user>@"+idstoreform.domain.value
-
+        idstoreform.hostname.value = "<server>."+idstoreform.domain.value
     })
 
     $('#idstoreform input[name=communicationsType]').on('change', function (e) {
