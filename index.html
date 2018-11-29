@@ -17,40 +17,40 @@
           aria-selected="true">Basic Connection</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+        <a class="nav-link" id="kerberos-tab" data-toggle="tab" href="#kerberos" role="tab" aria-controls="kerberos"
           aria-selected="false">Kerberos Connection</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages"
-          aria-selected="false">User Query</a>
+        <a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="false">User
+          Query</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
+        <a class="nav-link" id="group-tab" data-toggle="tab" href="#group" role="tab" aria-controls="group"
           aria-selected="false">Group Query</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
-          aria-selected="false">Miscellaneous</a>
+        <a class="nav-link" id="misc-tab" data-toggle="tab" href="#misc" role="tab" aria-controls="misc" aria-selected="false">Miscellaneous</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
+        <a class="nav-link" id="finalize-tab" data-toggle="tab" href="#finalize" role="tab" aria-controls="finalize"
           aria-selected="false">Finalize</a>
       </li>
     </ul>
 
+    <div class="py-5 text-center">
+      <h2>Tableau Identity Store Configuration Tool</h2>
+      <p class="lead">This tool will take you through all of the options and create a JSON file to use during
+        installation.</p>
+    </div>
     <div class="tab-content">
       <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
-        <div class="py-5 text-center">
-          <h2>Tableau Identity Store Configuration Tool</h2>
-          <p class="lead">This tool will take you through all of the options and create a JSON file to use during
-            installation.</p>
-        </div>
+
 
 
         <div class="col-md-8 order-md-1 mx-auto id=" basicConnection">
           <h4 class="mb-3">LDAP Connection Settings</h4>
-          <form class="needs-validation" id='idstoreform' novalidate >
+          <form class="needs-validation" id='idstoreform' novalidate>
             <div class="mb-3">
 
               <label for="hostname">LDAP Server Address
@@ -68,11 +68,13 @@
 
                 <label for="communicationsType">Binding Port</label>
                 <div class="custom-control custom-radio">
-                  <input id="port" name="communicationsType" type="radio" class="custom-control-input" value='port' checked required>
+                  <input id="port" name="communicationsType" type="radio" class="custom-control-input" value='port'
+                    checked required>
                   <label class="custom-control-label" for="port">Simple Bind</label>
                 </div>
                 <div class="custom-control custom-radio">
-                  <input id="sslPort" name="communicationsType" type="radio" class="custom-control-input" value='sslPort' required>
+                  <input id="sslPort" name="communicationsType" type="radio" class="custom-control-input" value='sslPort'
+                    required>
                   <label class="custom-control-label" for="sslPort">LDAPS/Secure (SSL)</label>
                 </div>
 
@@ -132,31 +134,248 @@
 
 
             <hr class="mb-4">
-            
+
           </form>
-          <button class="btn btn-primary btn-lg btn-block"  id='idstoreformSubmit'>Continue to Kerberos Connection Information</button>
+          <button class="btn btn-primary btn-lg btn-block" id='idstoreformSubmit'>Continue to Kerberos Connection
+            Information</button>
         </div>
       </div>
 
-    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-      .xx..
-    
+      <div class="tab-pane" id="kerberos" role="tabpanel" aria-labelledby="kerberos-tab">
+
+
+        <div class="col-md-8 order-md-1 mx-auto id=" basicConnection">
+          <h4 class="mb-3">Kerberos Settings</h4>
+          <form class="needs-validation" id='kerberosform' novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+
+                <label for="enableKerberos">Are you using Kerberos?</label>
+                <div class="custom-control custom-radio">
+                  <input id="noKerberos" name="enableKerberos" type="radio" class="custom-control-input" value='No'
+                    checked required>
+                  <label class="custom-control-label" for="noKerberos">Not using Kerberos</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input id="kerberos" name="enableKerberos" type="radio" class="custom-control-input" value='Yes'
+                    required>
+                  <label class="custom-control-label" for="kerberos">Using Kerberos</label>
+                </div>
+
+
+
+              </div>
+
+            </div>
+            <div id='kerberosEnabledGroup' style="display: none;">
+              <div class="mb-3">
+                <label for="kerberosPrincipal">What is the Kerberos Principal?</label>
+                <input type="text" class="form-control" id="kerberosPrincipal" placeholder="server principal name">
+                <div class="invalid-feedback" style="width: 100%;">
+                  The Principal is required.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="kerberosConfig">Path to the Kerberos Config File</label>
+                <input type="text" class="form-control" id="kerberosConfig" placeholder="path to config file">
+                <div class="invalid-feedback" style="width: 100%;">
+                  The Config file path is required.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="kerberosKeytab">LDAP Domain</label>
+                <input type="text" class="form-control" id="kerberosKeytab" placeholder="path to keytab file">
+                <div class="invalid-feedback" style="width: 100%;">
+                  The Keytab path is required.
+                </div>
+              </div>
+            </div>
+          </form>
+
+
+          <button class="btn btn-primary btn-lg btn-block" id='kerberosFormSubmit'>Continue to User Query/Filter
+            Information</button>
+        </div>
+
+
+      </div>
+      <div class="tab-pane" id="user" role="tabpanel" aria-labelledby="user-tab">
+        <div class="col-md-8 order-md-1 mx-auto">
+          <h4 class="mb-3">User Centric Settings</h4>
+          <form class="needs-validation" id='userform' novalidate>
+
+            <div class="mb-3">
+              <label for="userBaseDn">User Base DN <span class="text-muted">(Optional)</span>
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
+              </label>
+              <input type="text" class="form-control" id="userBaseDn" placeholder="o=groups">
+            </div>
+
+            <div class="mb-3">
+              <label for="userBaseFilter">User Base Filter<span class="text-muted">(Optional)</span>
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
+              </label>
+              <input type="text" class="form-control" id="userBaseFilter" placeholder="(objectClass=inetOrgPerson)">
+            </div>
+
+            <div class="mb-3">
+              <label for="userClassNames">Class Names <span class="text-muted">(Optional)</span>
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).">
+              </label>
+              <input type="text" class="form-control" id="userClassNames" placeholder="userclass1, userclass2">
+            </div>
+
+            <div class="mb-3">
+              <label for="userdnAttribute">Distinguised Name<span class="text-muted">(Optional)</span>
+              </label>
+              <input type="text" class="form-control" id="userdnAttribute" placeholder="">
+            </div>
+
+            <h5 class="mb-3">Attributes</h5>
+            <div class="mb-3">
+              <label for="userUsername">Username<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="userUsername" placeholder="user">
+            </div>
+
+            <div class="mb-3">
+              <label for="userDisplayName">Display Name<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="userDisplayName" placeholder="displayname">
+            </div>
+
+            <div class="mb-3">
+              <label for="userEmail">Email<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="userEmail" placeholder="email">
+            </div>
+
+            <div class="mb-3">
+              <label for="userCertificate">Certificate<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="userCertificate" placeholder="certificate">
+            </div>
+
+            <div class="mb-3">
+              <label for="userThumbnail">Thumbnail<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="userThumbnail" placeholder="thumb">
+            </div>
+
+            <div class="mb-3">
+              <label for="userJpegPhoto">JPEG Photo<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="userJpegPhoto" placeholder="photo">
+            </div>
+
+            <div class="mb-3">
+              <label for="userMemberOf">Member Of<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="userMemberOf" placeholder="">
+            </div>
+
+          </form>
+          <button class="btn btn-primary btn-lg btn-block" id='userFormSubmit'>Continue to Group Settings</button>
+        </div>
+      </div>
+
+
+
+      <div class="tab-pane" id="group" role="tabpanel" aria-labelledby="group-tab">
+
+        <div class="col-md-8 order-md-1 mx-auto">
+          <h4 class="mb-3">Group Centric Settings</h4>
+          <form class="needs-validation" id='groupform' novalidate>
+
+            <div class="mb-3">
+              <label for="groupBaseDn">Group Base DN <span class="text-muted">(Optional)</span>
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
+              </label>
+              <input type="text" class="form-control" id="groupBaseDn" placeholder="o=groups">
+            </div>
+
+            <div class="mb-3">
+              <label for="groupBaseFilter">Group Base Filter<span class="text-muted">(Optional)</span>
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
+              </label>
+              <input type="text" class="form-control" id="groupBaseFilter" placeholder="(objectClass=groupofNames)">
+            </div>
+
+            <div class="mb-3">
+              <label for="groupClassNames">Class Names <span class="text-muted">(Optional)</span>
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).">
+              </label>
+              <input type="text" class="form-control" id="groupClassNames" placeholder="groupclass1, groupclass2">
+            </div>
+
+
+            <h5 class="mb-3">Attributes</h5>
+            <div class="mb-3">
+              <label for="groupGroupname">Group Name<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="groupGroupname" placeholder="groupname">
+            </div>
+
+            <div class="mb-3">
+              <label for="groupEmail">Email<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="groupEmail" placeholder="groupemail">
+            </div>
+
+
+            <div class="mb-3">
+              <label for="groupDescription">Description<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="groupDescription" placeholder="groupdescription">
+            </div>
+
+            <div class="mb-3">
+              <label for="groupMember">Member Of<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="groupMember" placeholder="member">
+            </div>
+
+          </form>
+          <button class="btn btn-primary btn-lg btn-block" id='groupFormSubmit'>Continue to Group Settings</button>
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="misc" role="tabpanel" aria-labelledby="misc-tab">
+        <div class="col-md-8 order-md-1 mx-auto">
+          <h4 class="mb-3">Miscellaneous Settings</h4>
+          <form class="needs-validation" id='miscform' novalidate>
+
+            <div class="mb-3">
+              <label for="rangeRetrieval">Range Retrieval<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="rangeRetrieval" placeholder="1500">
+            </div>
+
+            <div class="mb-3">
+              <label for="membersRetrievalPageSize">Page Retrieval Size<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="membersRetrievalPageSize" placeholder="1500">
+            </div>
+
+            <div class="mb-3">
+              <label for="serverSideSorting">Server Side Sorting<span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="serverSideSorting" placeholder="false">
+            </div>
+
+          </form>
+          <button class="btn btn-primary btn-lg btn-block" id='miscFormSubmit'>Continue to Finalize</button>
+        </div>
+
+
+      </div>
+      <div class="tab-pane" id="finalize" role="tabpanel" aria-labelledby="finalize-tab">
+          <div class="col-md-8 order-md-1 mx-auto">
+              <h4 class="mb-3">Finalize - You made it!</h4>
+          <div class="form-group">
+              <label for="comment">Copy these settings into a file for import with LDAP:</label>
+              <textarea class="form-control" rows="50" id="output" readonly></textarea>
+            </div>
+            </div>
+      </div>
     </div>
-    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">.ee..</div>
-    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">.dd..</div>
-  </div>
 
 
-
-
-  <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">&copy; 2017-2018 Company Name</p>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="#">Privacy</a></li>
-      <li class="list-inline-item"><a href="#">Terms</a></li>
-      <li class="list-inline-item"><a href="#">Support</a></li>
-    </ul>
-  </footer>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+      <p class="mb-1">&copy; 2017-2018 Company Name</p>
+      <ul class="list-inline">
+        <li class="list-inline-item"><a href="#">Privacy</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Support</a></li>
+      </ul>
+    </footer>
   </div>
 
   <!-- Bootstrap core JavaScript
@@ -176,7 +395,7 @@
 
 
 
- 
+
 </body>
 
 </html>
