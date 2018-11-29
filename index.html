@@ -83,7 +83,7 @@
               </div>
               <div class="col-md-6 mb-3">
                 <div class="mb-3">
-                  <label for="portNumber">Port Number</label>
+                  <label for="portNumber">Port Number<span class="text-muted" id="portnote">(Change if appropriate)</span></label>
                   <input type="number" class="form-control" id="portNumber" placeholder="Default is LDAPS=636 or Simple=389"
                     required>
                   <div class="invalid-feedback" style="width: 100%;">
@@ -105,7 +105,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="root">Root <span class="text-muted">(Optional)</span>
+              <label for="root">Root <span class="text-muted" id="rootnote">(Will populate from Domain)</span>
                 <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Root.  If you do not use a dc component in the LDAP root or you want to specify a more complex root you need to set the LDAP root. Use the 'o=my,u=root' format. For example, for the domain, example.lan, the root would be 'o=example,u=lan'.">
 
               </label>
@@ -118,14 +118,14 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="username">LDAP User Name</label>
-                <input type="text" class="form-control" id="username" placeholder="" required>
+                <input type="text" class="form-control" id="username" placeholder="username" required>
                 <div class="invalid-feedback">
                   Name is required
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="password">Password</label>
-                <input type="text" class="form-control" id="password" placeholder="" required>
+                <input type="text" class="form-control" id="password" placeholder="password" required>
                 <div class="invalid-feedback">
                   Password is required
                 </div>
@@ -147,235 +147,229 @@
         <div class="col-md-8 order-md-1 mx-auto id=" basicConnection">
           <h4 class="mb-3">Kerberos Settings</h4>
           <form class="needs-validation" id='kerberosform' novalidate>
-            <div class="row">
-              <div class="col-md-6 mb-3">
 
-                <label for="enableKerberos">Are you using Kerberos?</label>
-                <div class="custom-control custom-radio">
-                  <input id="noKerberos" name="enableKerberos" type="radio" class="custom-control-input" value='No'
-                    checked required>
-                  <label class="custom-control-label" for="noKerberos">Not using Kerberos</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input id="kerberos" name="enableKerberos" type="radio" class="custom-control-input" value='Yes'
-                    required>
-                  <label class="custom-control-label" for="kerberos">Using Kerberos</label>
-                </div>
+            <div class="col-md-6 mb-3">
 
-
-
+              Are you using Kerberos?
+              <div class="custom-control custom-radio">
+                <input id="noKerberos" name="enableKerberos" type="radio" class="custom-control-input" value='No'
+                  checked required>
+                <label class="custom-control-label" for="noKerberos">Not using Kerberos</label>
               </div>
+              <div class="custom-control custom-radio">
+                <input id="yeskerberos" name="enableKerberos" type="radio" class="custom-control-input" value='Yes'
+                  required>
+                <label class="custom-control-label" for="yeskerberos">Using Kerberos</label>
+              </div>
+
+
 
             </div>
-            <div id='kerberosEnabledGroup' style="display: none;">
-              <div class="mb-3">
-                <label for="kerberosPrincipal">What is the Kerberos Principal?</label>
-                <input type="text" class="form-control" id="kerberosPrincipal" placeholder="server principal name">
-                <div class="invalid-feedback" style="width: 100%;">
-                  The Principal is required.
-                </div>
+
+
+
+
+
+
+            <div id='kerberosEnabledGroup' style="display: none;" class="mb-3">
+
+              <label for="kerberosPrincipal">What is the Kerberos Principal?</label>
+              <input type="text" class="form-control" id="kerberosPrincipal" placeholder="server principal name">
+              <div class="invalid-feedback" style="width: 100%;">
+                The Principal is required.
               </div>
-              <div class="mb-3">
-                <label for="kerberosConfig">Path to the Kerberos Config File</label>
-                <input type="text" class="form-control" id="kerberosConfig" placeholder="path to config file">
-                <div class="invalid-feedback" style="width: 100%;">
-                  The Config file path is required.
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="kerberosKeytab">LDAP Domain</label>
-                <input type="text" class="form-control" id="kerberosKeytab" placeholder="path to keytab file">
-                <div class="invalid-feedback" style="width: 100%;">
-                  The Keytab path is required.
-                </div>
-              </div>
-            </div>
+
+
           </form>
-
-
+          <div class="mt-3">See documentation for importing Config and Keytab file. <a href='https://onlinehelp.tableau.com/current/server/en-us/config_kerberos.htm'>Configure Kerberos</a></a></div>
+        </div>
           <button class="btn btn-primary btn-lg btn-block" id='kerberosFormSubmit'>Continue to User Query/Filter
             Information</button>
-        </div>
-
-
-      </div>
-      <div class="tab-pane" id="user" role="tabpanel" aria-labelledby="user-tab">
-        <div class="col-md-8 order-md-1 mx-auto">
-          <h4 class="mb-3">User Centric Settings</h4>
-          <form class="needs-validation" id='userform' novalidate>
-
-            <div class="mb-3">
-              <label for="userBaseDn">User Base DN <span class="text-muted">(Optional)</span>
-                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
-              </label>
-              <input type="text" class="form-control" id="userBaseDn" placeholder="o=groups">
-            </div>
-
-            <div class="mb-3">
-              <label for="userBaseFilter">User Base Filter<span class="text-muted">(Optional)</span>
-                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
-              </label>
-              <input type="text" class="form-control" id="userBaseFilter" placeholder="(objectClass=inetOrgPerson)">
-            </div>
-
-            <div class="mb-3">
-              <label for="userClassNames">Class Names <span class="text-muted">(Optional)</span>
-                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).">
-              </label>
-              <input type="text" class="form-control" id="userClassNames" placeholder="userclass1, userclass2">
-            </div>
-
-            <div class="mb-3">
-              <label for="userdnAttribute">Distinguised Name<span class="text-muted">(Optional)</span>
-              </label>
-              <input type="text" class="form-control" id="userdnAttribute" placeholder="">
-            </div>
-
-            <h5 class="mb-3">Attributes</h5>
-            <div class="mb-3">
-              <label for="userUsername">Username<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="userUsername" placeholder="user">
-            </div>
-
-            <div class="mb-3">
-              <label for="userDisplayName">Display Name<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="userDisplayName" placeholder="displayname">
-            </div>
-
-            <div class="mb-3">
-              <label for="userEmail">Email<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="userEmail" placeholder="email">
-            </div>
-
-            <div class="mb-3">
-              <label for="userCertificate">Certificate<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="userCertificate" placeholder="certificate">
-            </div>
-
-            <div class="mb-3">
-              <label for="userThumbnail">Thumbnail<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="userThumbnail" placeholder="thumb">
-            </div>
-
-            <div class="mb-3">
-              <label for="userJpegPhoto">JPEG Photo<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="userJpegPhoto" placeholder="photo">
-            </div>
-
-            <div class="mb-3">
-              <label for="userMemberOf">Member Of<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="userMemberOf" placeholder="">
-            </div>
-
-          </form>
-          <button class="btn btn-primary btn-lg btn-block" id='userFormSubmit'>Continue to Group Settings</button>
-        </div>
+        
       </div>
 
+    </div>
+    <div class="tab-pane" id="user" role="tabpanel" aria-labelledby="user-tab">
+      <div class="col-md-8 order-md-1 mx-auto">
+        <h4 class="mb-3">User Centric Settings</h4>
+        <form class="needs-validation" id='userform' novalidate>
+
+          <div class="mb-3">
+            <label for="userBaseDn">User Base DN <span class="text-muted" id="userBaseDnNote">(Must include overall root.)</span>
+              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
+            </label>
+            <input type="text" class="form-control" id="userBaseDn" value="o=users">
+          </div>
+
+          <div class="mb-3">
+            <label for="userBaseFilter">User Base Filter</span>
+              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
+            </label>
+            <input type="text" class="form-control" id="userBaseFilter" value="(objectClass=inetOrgPerson)">
+          </div>
+
+          <div class="mb-3">
+            <label for="userClassNames">Class Names <span class="text-muted">(Optional)</span>
+              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).">
+            </label>
+            <input type="text" class="form-control" id="userClassNames" placeholder="userclass1, userclass2">
+          </div>
+
+          <div class="mb-3">
+            <label for="userdnAttribute">Distinguised Name
+            </label>
+            <input type="text" class="form-control" id="userdnAttribute" value="dn">
+          </div>
 
 
-      <div class="tab-pane" id="group" role="tabpanel" aria-labelledby="group-tab">
+          <div class="mb-3">
+            <label for="userUsername">Username</label>
+            <input type="text" class="form-control" id="userUsername" value="user">
+          </div>
 
-        <div class="col-md-8 order-md-1 mx-auto">
-          <h4 class="mb-3">Group Centric Settings</h4>
-          <form class="needs-validation" id='groupform' novalidate>
+          <h5 class="mb-3">Attributes</h5>
+          <div class="mb-3">
+            <label for="userDisplayName">Display Name<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="userDisplayName" placeholder="displayname">
+          </div>
 
+          <div class="mb-3">
+            <label for="userEmail">Email<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="userEmail" placeholder="email">
+          </div>
+
+          <div class="mb-3">
+            <label for="userCertificate">Certificate<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="userCertificate" placeholder="certificate">
+          </div>
+
+          <div class="mb-3">
+            <label for="userThumbnail">Thumbnail<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="userThumbnail" placeholder="thumb">
+          </div>
+
+          <div class="mb-3">
+            <label for="userJpegPhoto">JPEG Photo<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="userJpegPhoto" placeholder="photo">
+          </div>
+          
+          
+          <!--  Not used by Tableau 
+          
             <div class="mb-3">
-              <label for="groupBaseDn">Group Base DN <span class="text-muted">(Optional)</span>
-                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
-              </label>
-              <input type="text" class="form-control" id="groupBaseDn" placeholder="o=groups">
-            </div>
+            <label for="userMemberOf">Member Of<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="userMemberOf" placeholder="">
+          </div> -->
 
-            <div class="mb-3">
-              <label for="groupBaseFilter">Group Base Filter<span class="text-muted">(Optional)</span>
-                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
-              </label>
-              <input type="text" class="form-control" id="groupBaseFilter" placeholder="(objectClass=groupofNames)">
-            </div>
-
-            <div class="mb-3">
-              <label for="groupClassNames">Class Names <span class="text-muted">(Optional)</span>
-                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).">
-              </label>
-              <input type="text" class="form-control" id="groupClassNames" placeholder="groupclass1, groupclass2">
-            </div>
-
-
-            <h5 class="mb-3">Attributes</h5>
-            <div class="mb-3">
-              <label for="groupGroupname">Group Name<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="groupGroupname" placeholder="groupname">
-            </div>
-
-            <div class="mb-3">
-              <label for="groupEmail">Email<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="groupEmail" placeholder="groupemail">
-            </div>
-
-
-            <div class="mb-3">
-              <label for="groupDescription">Description<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="groupDescription" placeholder="groupdescription">
-            </div>
-
-            <div class="mb-3">
-              <label for="groupMember">Member Of<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="groupMember" placeholder="member">
-            </div>
-
-          </form>
-          <button class="btn btn-primary btn-lg btn-block" id='groupFormSubmit'>Continue to Group Settings</button>
-        </div>
-
-      </div>
-
-      <div class="tab-pane" id="misc" role="tabpanel" aria-labelledby="misc-tab">
-        <div class="col-md-8 order-md-1 mx-auto">
-          <h4 class="mb-3">Miscellaneous Settings</h4>
-          <form class="needs-validation" id='miscform' novalidate>
-
-            <div class="mb-3">
-              <label for="rangeRetrieval">Range Retrieval<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="rangeRetrieval" placeholder="1500">
-            </div>
-
-            <div class="mb-3">
-              <label for="membersRetrievalPageSize">Page Retrieval Size<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="membersRetrievalPageSize" placeholder="1500">
-            </div>
-
-            <div class="mb-3">
-              <label for="serverSideSorting">Server Side Sorting<span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="serverSideSorting" placeholder="false">
-            </div>
-
-          </form>
-          <button class="btn btn-primary btn-lg btn-block" id='miscFormSubmit'>Continue to Finalize</button>
-        </div>
-
-
-      </div>
-      <div class="tab-pane" id="finalize" role="tabpanel" aria-labelledby="finalize-tab">
-          <div class="col-md-8 order-md-1 mx-auto">
-              <h4 class="mb-3">Finalize - You made it!</h4>
-          <div class="form-group">
-              <label for="comment">Copy these settings into a file for import with LDAP:</label>
-              <textarea class="form-control" rows="50" id="output" readonly></textarea>
-            </div>
-            </div>
+        </form>
+        <button class="btn btn-primary btn-lg btn-block" id='userFormSubmit'>Continue to Group Settings</button>
       </div>
     </div>
 
 
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-      <p class="mb-1">&copy; 2017-2018 Company Name</p>
-      <ul class="list-inline">
-        <li class="list-inline-item"><a href="#">Privacy</a></li>
-        <li class="list-inline-item"><a href="#">Terms</a></li>
-        <li class="list-inline-item"><a href="#">Support</a></li>
-      </ul>
-    </footer>
+
+    <div class="tab-pane" id="group" role="tabpanel" aria-labelledby="group-tab">
+
+      <div class="col-md-8 order-md-1 mx-auto">
+        <h4 class="mb-3">Group Centric Settings</h4>
+        <form class="needs-validation" id='groupform' novalidate>
+
+          <div class="mb-3">
+            <label for="groupBaseDn">Group Base DN <span class="text-muted" id='groupBaseDnNote'>(This must include the overall root.)</span>
+              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
+            </label>
+            <input type="text" class="form-control" id="groupBaseDn" value="o=groups">
+          </div>
+
+          <div class="mb-3">
+            <label for="groupBaseFilter">Group Base Filter</span>
+              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
+            </label>
+            <input type="text" class="form-control" id="groupBaseFilter" value="(objectClass=groupofNames)">
+          </div>
+
+          <div class="mb-3">
+            <label for="groupClassNames">Class Names <span class="text-muted">(Optional)</span>
+              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).">
+            </label>
+            <input type="text" class="form-control" id="groupClassNames" placeholder="groupclass1, groupclass2">
+          </div>
+
+
+          <h5 class="mb-3">Attributes</h5>
+          <div class="mb-3">
+            <label for="groupGroupname">Group Name</label>
+            <input type="text" class="form-control" id="groupGroupname" value="groupname">
+          </div>
+
+          <div class="mb-3">
+            <label for="groupEmail">Email<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="groupEmail" placeholder="groupemail">
+          </div>
+
+
+          <div class="mb-3">
+            <label for="groupDescription">Description<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="groupDescription" placeholder="groupdescription">
+          </div>
+
+          <div class="mb-3">
+            <label for="groupMember">Member Of<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="groupMember" placeholder="member">
+          </div>
+
+        </form>
+        <button class="btn btn-primary btn-lg btn-block" id='groupFormSubmit'>Continue to Miscellaneou Settings</button>
+      </div>
+
+    </div>
+
+    <div class="tab-pane" id="misc" role="tabpanel" aria-labelledby="misc-tab">
+      <div class="col-md-8 order-md-1 mx-auto">
+        <h4 class="mb-3">Miscellaneous Settings</h4>
+        <form class="needs-validation" id='miscform' novalidate>
+
+          <div class="mb-3">
+            <label for="rangeRetrieval">Range Retrieval<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="rangeRetrieval" placeholder="1500">
+          </div>
+
+          <div class="mb-3">
+            <label for="membersRetrievalPageSize">Page Retrieval Size<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="membersRetrievalPageSize" placeholder="1500">
+          </div>
+
+          <div class="mb-3">
+            <label for="serverSideSorting">Server Side Sorting<span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="serverSideSorting" placeholder="false">
+          </div>
+
+        </form>
+        <button class="btn btn-primary btn-lg btn-block" id='miscFormSubmit'>Continue to Finalize</button>
+      </div>
+
+
+    </div>
+    <div class="tab-pane" id="finalize" role="tabpanel" aria-labelledby="finalize-tab">
+      <div class="col-md-8 order-md-1 mx-auto">
+        <h4 class="mb-3">Finalize - You made it!</h4>
+        <div class="form-group">
+          <label for="comment">Copy these settings into a file for import with LDAP:</label>
+          <textarea class="form-control" rows="50" id="output" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017-2018 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
   </div>
 
   <!-- Bootstrap core JavaScript
