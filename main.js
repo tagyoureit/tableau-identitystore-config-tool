@@ -19,6 +19,7 @@
                 "bind": "simple",
                 "username": "cn=username,dc=your,dc=domain",
                 "password": "password",
+                "kerberosPrincipal": "",
                 "identityStoreSchemaType": {
                     "distinguishedNameAttribute": "",
                     "userBaseDn": "",
@@ -75,10 +76,11 @@
         groupform.groupBaseDn.value = "o=groups," + formatted
         $("#groupBaseDnNote").html('If not ' + groupform.groupBaseDn.value + " input appropriate value.  Must include root entry.")
 
+        kerberosform.kerberosPrincipal.value = "<user>@"+idstoreform.domain.value
+
     })
 
     $('#idstoreform input[name=communicationsType]').on('change', function (e) {
-        console.log(e.currentTarget.value)
         if (e.currentTarget.value === 'port') {
             idstoreform.portNumber.value = 389
         }
@@ -132,17 +134,17 @@
 
 
     $('#kerberosform input[name=enableKerberos]').on('change', function (e) {
-        console.log(e)
-        console.log(e.currentTarget.value)
         if (e.currentTarget.value === 'Yes') {
             $('#kerberosEnabledGroup').show()
             openLdapSimpleBindTemplate.configEntities.identityStore.bind = "simple"
+            openLdapSimpleBindTemplate.configEntities.kerberosPrincipal = ''
+
         }
         else {
             $('#kerberosEnabledGroup').hide()
             openLdapSimpleBindTemplate.configEntities.identityStore.bind = "gssapi"
             // openLdapSimpleBindTemplate.configEntities.kerberosConfig = ''
-            openLdapSimpleBindTemplate.configEntities.kerberos = ''
+            // openLdapSimpleBindTemplate.configEntities.kerberosPrincipal = ''
             // openLdapSimpleBindTemplate.configEntities.kerberosKeytab = ''
         }
     })
