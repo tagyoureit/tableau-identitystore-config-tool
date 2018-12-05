@@ -127,7 +127,7 @@
 
             <div class="mb-3">
               <label for="root">Root <span class="text-muted" id="rootnote">(Will populate from Domain)</span>
-                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Root.  If you do not use a dc component in the LDAP root or you want to specify a more complex root you need to set the LDAP root. Use the 'o=my,u=root' format. For example, for the domain, example.lan, the root would be 'o=example,u=lan'.">
+                <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Root.  If you do not use a dc component in the LDAP root or you want to specify a more complex root you need to set the LDAP root. Use the 'o=my,u=root' format. For example, for the domain, example.lan, the root would be 'o=example,u=lan'.">
 
               </label>
               <input type="text" class="form-control" id="root" placeholder="If not dc=mycompany,dc=com enter your root entry.">
@@ -140,7 +140,7 @@
             <div class="mb-3">
 
               <label for="hostname">LDAP Server Address
-                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Server address.  Most often it will be in the standard dot notation but an ip address is also valid.">
+                <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Server address.  Most often it will be in the standard dot notation but an ip address is also valid.">
               </label>
               <input type="text" class="form-control" id="hostname" placeholder="ldap.mycompany.com" required>
               <div class="invalid-feedback">
@@ -205,12 +205,14 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="password">Password
-                    <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If you do not want to input the password here, you can edit it in the config file when you download it.">
+                    <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="If you do not want to input the password here, you can edit it in the config file when you download it.">
                   </label>
-                  <input type="text" class="form-control" id="password" placeholder="password (see tooltip)" required>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="password (see tooltip)" required>
                   <div class="invalid-feedback">
                     Password is required
                   </div>
+                  <label class="text-muted" for="passwordToggle">Show/Hide Password</label>
+                  <input type="checkbox" id="passwordToggle">
                 </div>
               </div>
 
@@ -280,21 +282,21 @@
           <div class="mb-3">
             <label for="userBaseDn">User Base DN <span class="text-muted" id="userBaseDnNote">(Must include overall
                 root.)</span>
-              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
+              <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
             </label>
             <input type="text" class="form-control" id="userBaseDn" value="o=users">
           </div>
 
           <div class="mb-3">
             <label for="userBaseFilter">User Base Filter</span>
-              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
+              <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
             </label>
             <input type="text" class="form-control" id="userBaseFilter" value="(objectClass=inetOrgPerson)">
           </div>
 
           <div class="mb-3">
             <label for="userClassNames">Class Names <span class="text-muted">(Optional)</span>
-              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).  If your userClass names include commas, you must escape them with a backslash (\). For example, if you have a group name, 'Names, top', then enter &quot;Names\, top&quot;
+              <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).  If your userClass names include commas, you must escape them with a backslash (\). For example, if you have a group name, 'Names, top', then enter &quot;Names\, top&quot;
               ">
             </label>
             <input type="text" class="form-control" id="userClassNames" placeholder="userclass1, userclass2">
@@ -360,21 +362,21 @@
           <div class="mb-3">
             <label for="groupBaseDn">Group Base DN <span class="text-muted" id='groupBaseDnNote'>(This must include the
                 overall root.)</span>
-              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
+              <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
             </label>
             <input type="text" class="form-control" id="groupBaseDn" value="o=groups">
           </div>
 
           <div class="mb-3">
             <label for="groupBaseFilter">Group Base Filter</span>
-              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
+              <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="Should there be a filter that limits what groups are returned/available to Tableau Server?">
             </label>
             <input type="text" class="form-control" id="groupBaseFilter" value="(objectClass=groupofNames)">
           </div>
 
           <div class="mb-3">
             <label for="groupClassNames">Class Names <span class="text-muted">(Optional)</span>
-              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).">
+              <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).">
             </label>
             <input type="text" class="form-control" id="groupClassNames" placeholder="groupclass1, groupclass2">
           </div>
@@ -382,7 +384,7 @@
           <h5 class="mb-3">Attributes</h5>
           <div class="mb-3">
             <label for="groupGroupname">Group Name
-              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="          If your group names include commas, you must escape them with a backslash (\). For example, if you have a group name, 'groupOfNames, top', then enter &quot;groupOfNames\, top&quot;"
+              <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="          If your group names include commas, you must escape them with a backslash (\). For example, if you have a group name, 'groupOfNames, top', then enter &quot;groupOfNames\, top&quot;"
                 .>
             </label>
             <input type="text" class="form-control" id="groupGroupname" value="groupname">

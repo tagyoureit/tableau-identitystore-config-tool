@@ -327,6 +327,16 @@
 
     })
 
+    // toggle password visibility
+    $('#passwordToggle').on('click', function(e){
+        if ($('#idstoreform :input[name=password]').attr('type')==="password"){
+            $('#idstoreform :input[name=password]').attr('type','text')
+        }
+        else {
+            $('#idstoreform :input[name=password]').attr('type', 'password')
+        }
+    })
+
     // watch for a change on the upload radio button and show/hide the right fields
     $('#uploadform input[name=uploadSelect]').on('change', function (e) {
         if (debug) console.log(e.currentTarget.value)
