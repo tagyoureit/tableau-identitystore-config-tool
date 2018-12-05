@@ -233,86 +233,6 @@
         uploadedVals = JSON.parse(JSON.stringify(blankTemplate))
 
     }
-    /*
-        // function to return value from either 2nd or 3rd level of object (either LDAP Template or uploadedVals)
-        var getVal = function (obj, val) {
-            return (obj.configEntities.identityStore || {})[val] ||
-                ((obj.configEntities.identityStore || {}).identityStoreSchemaType || {})[val]
-        }
-    
-        var differencesInTSM = function () {
-            // reset differences
-            // resetChangedCurrent()
-    
-    
-    
-    
-    
-            // if (debug) console.log("what has changed...")
-            // if (debug) console.log(changedCurrent)
-            // if (debug) console.log(formatTSMAllCommands("changedCurrent"))
-    
-            // var _var = "changedCurrent."
-            // var tsmCommands = ""
-            // const changedKeys = Object.keys(mapTemplateToTsmConfigKey)
-            // for (const ckey of changedKeys) {
-            //     if (_var.hasOwnProperty(ckey)) {
-            //         if (eval(_var + ckey) === undefined || eval(_var + ckey) === "") {
-            //             // tsm configuration set -k wgserver.domain.ldap.user.baseDn -v ou=people,dc=company,dc=com
-            //             tsmCommands += "tsm configuration set -k " + changedCurrent[ckey] + " -v \"\"\r\n"
-            //         }
-            //         else {
-            //             tsmCommands += "tsm configuration set -k " + changedCurrent[ckey] + " -v \"" + eval(_var + ckey) + "\"\r\n"
-            //         }
-            //     }
-            //     else {
-            //         if (debug) console.log("property " + ckey + " doesn't exist")
-            //     }
-            // }
-    
-            // if (debug) console.log('final changed... ', JSON.stringify(tsmCommands, null, 4))
-    
-            // loop through values at identityStore level
-            var keys = Object.keys(uploadedVals.configEntities.identityStore)
-            for (var key of keys) {
-                if (debug) console.log("CHANGED key: ", key)
-    
-                if (typeof uploadedVals.configEntities.identityStore[key] !== "object") {
-                    if (debug) console.log("Value of uploaded: ", getVal(uploadedVals, key))
-                    if (debug) console.log("Value of LDAPTemplate: ", getVal(LDAPConfigTemplate, key))
-    
-                    // if the values match, and we have a mapping for the key (are able to change it...)
-                    if (getVal(uploadedVals, key) !== getVal(LDAPConfigTemplate, key &&
-                        mapTemplateToTsmConfigKey["configEntities.identityStore." + key])) {
-    
-                        tsmCommands += "tsm configuration set -k " + mapTemplateToTsmConfigKey[key] + " -v \"\"\r\n"
-                        if (debug) console.log("Keys changed from input values")
-                        if (debug) console.log("tsm configuration set -k " + mapTemplateToTsmConfigKey["configEntities.identityStore." + key] + " -v " + getVal(LDAPConfigTemplate, key) + "\"\r\n")
-                    }
-                }
-    
-            }
-    
-            // loop through values at identityStore.identityStoreSchemaType level
-            var keys = Object.keys(uploadedVals.configEntities.identityStore.identityStoreSchemaType)
-            for (var key of keys) {
-                if (debug) console.log("CHANGED key: ", key)
-    
-                if (typeof uploadedVals.configEntities.identityStore.identityStoreSchemaType[key] !== "object") {
-                    if (debug) console.log("Value of uploaded: ", getVal(uploadedVals, key))
-                    if (debug) console.log("Value of LDAPTemplate: ", getVal(LDAPConfigTemplate, key))
-                    if (getVal(uploadedVals, key) !== getVal(LDAPConfigTemplate, key)) {
-                        tsmCommands += "tsm configuration set -k " + mapTemplateToTsmConfigKey[key] + " -v \"\"\r\n"
-                        if (debug) console.log("Keys changed from input values")
-                        if (debug) console.log("tsm configuration set -k " + mapTemplateToTsmConfigKey["configEntities.identityStore.identityStoreSchemaType." + key] + " -v " + getVal(LDAPConfigTemplate, key) + "\"\r\n")
-                    }
-                }
-    
-            }
-    
-    
-        }
-    */
     // this function formats "tsm configuration set..." commands given a particular variable
     var formatTSMAllCommands = function () {
 
@@ -467,8 +387,6 @@
         }
         addArrayOfChanged("idstoreform.portNumber.value")
         addArrayOfChanged("idstoreform.sslPortNumber.value")
-
-
 
     })
 
@@ -795,7 +713,7 @@
                             // else for null test
                             if (debug) console.log("entry is null or ''")
                             countSkipped += 1
-                            resultStr += entry + "<br>"
+                            resultStr += entry + "(unknown key)<br>"
                         }
                     }
                 }
