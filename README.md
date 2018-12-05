@@ -29,6 +29,7 @@ Further, if you have already installed Tableau with LDAP and it isn't working th
 If you have not installed your Tableau Server yet, these are the directions for you.
 
 1. Choose "Start from Scratch"
+
 ![Start Screen](images/StartScreen.jpeg)
 
 
@@ -48,6 +49,15 @@ wgserver.domain.port: 0
 wgserver.domain.ssl_port: 636
 ... and a lot more
 ```
+
+##### Linux - Retrieve yml settings
+* Navigate to `/var/opt/tableau/tableau_server/data/tabsvc/config/vizportal_0.<version>` or the location of your Tableau Server installation.
+* Run `grep "wgserver.domain" workgroup.yml`.  
+
+##### Windows - Retrieve yml settings
+* Navigate to `<TableauServerRootDirectory>/\Tableau Server\data\tabsvc\services\vizportal_0.<version>\config>`
+* Run `findstr "wgserver.domain" workgroup.yml`
+
 3. Copy the contents into the "Paste settings from workgroup.yml" import box.
 ![Import box](images/StartScreenImport.jpeg)
 4. Click Load Settings. An informational message will be shown.  *Note: not all settings will be imported.  Some are not directly related to LDAP and some cannot be changed.*
@@ -59,13 +69,7 @@ wgserver.domain.ssl_port: 636
 9. If you recieve valid responses for the above two commands then commit the changes by running [tsm pending-changes apply](https://onlinehelp.tableau.com/current/server-linux/en-us/cli_pending-changes.htm#pending-changes-apply).  If not, return to Step 5.
 
 
-##### Linux - Retrieve yml settings
-1. Navigate to `/var/opt/tableau/tableau_server/data/tabsvc/config/vizportal_0.<version>` or the location of your Tableau Server installation.
-1. Run `grep "wgserver.domain" workgroup.yml`.  
 
-##### Windows - Retrieve yml settings
-1. Navigate to `<TableauServerRootDirectory>/\Tableau Server\data\tabsvc\services\vizportal_0.<version>\config>`
-1. Run `findstr "wgserver.domain" workgroup.yml`
 
 
 
@@ -75,7 +79,7 @@ Tableau provides a reference for all commands in the [help](https://onlinehelp.t
 # Troubleshooting
 Troubleshooting LDAP can be a tricky thing.  Following these tips will help you be successful.  
 
-The first tip is to Work with your LDAP administrator to make sure you have the appropriate resource who can help debug any LDAP queries.  Guessing at the right values will never lead to success.
+The first tip is to work with your LDAP administrator to make sure you have the appropriate resource who can help debug any LDAP queries.  Guessing at the right values will never lead to success.
 
 ## How Tableau LDAP uses these settings.
 1. Basic Connection Screen - Everything on this screen is used to establish the basic connection to the LDAP server (except for Kerberos).
@@ -135,4 +139,3 @@ Similarly for groups, if the following query works:
 Then your Group Base DN would be "dc=example,dc=com" and the User Base Filter should be "objectClass=groupOfUniqueNames".
 
 Note: in this example groups and users are stored at the root but that isn't typcially the case in enterprise delpoyments.  If users are stored in an organizational unit (OU) that is "people" then the User Base DN would be "o=people,dc=example,dc=com".
- 
