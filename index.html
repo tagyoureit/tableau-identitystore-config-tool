@@ -61,8 +61,8 @@
       <div class="tab-pane active" id="start" role="tabpanel" aria-labelledby="start-tab">
         <div class="col-md-8 order-md-1 mx-auto">
           <div class="mb-3">
-            <h3>Instructions</h3>
-            This tool can be used for many different purposes.
+            <h3>Short Instructions</h3>
+            Full instructions are in the <a href="https://github.com/tagyoureit/tableau-identitystore-config-tool">README.mb</a>
             <ol>
               <li>
                 <b>Brand new installation</b>
@@ -92,7 +92,7 @@
             <div class="custom-control custom-radio">
               <input id="uploadYml" name="uploadSelect" type="radio" class="custom-control-input" value='uploadYml'
                 required>
-              <label class="custom-control-label" for="uploadYml">Paste settings from workgroup.yml *directions needed*</label>
+              <label class="custom-control-label" for="uploadYml">Paste settings from workgroup.yml</label>
             </div>
             <!--
             <div class="custom-control custom-radio">
@@ -104,7 +104,7 @@
             -->
             <textarea class="form-control" rows="5" id="upload" style="display: none;"></textarea>
           </form>
-
+          <button class="btn btn-primary btn-sm" id="uploadBtn" style="display: none;">Load settings</button>
           <button class="btn btn-primary btn-lg btn-block mt-3" id='uploadFormSubmit'>Go to Basic Connection
             Information</button>
         </div>
