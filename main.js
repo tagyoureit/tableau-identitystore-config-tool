@@ -320,7 +320,7 @@
     // any time a form element is changed, add it to the changed array for processing later.
     $('form :input').on('change', function (e) {
 
-        if ($(this)[0].type !== "radio") {
+        if (!($(this)[0].type === "radio" || $(this)[0].type === "checkbox")) {
             var changed = $(this).closest('form')[0].id + "." + e.currentTarget.id + ".value"
             addArrayOfChanged(changed)
         }
