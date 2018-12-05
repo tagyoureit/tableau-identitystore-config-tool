@@ -13,8 +13,12 @@
 
     <ul class="nav nav-tabs" id="menu" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-          aria-selected="true">Basic Connection</a>
+        <a class="nav-link active" id="start-tab" data-toggle="tab" href="#start" role="tab" aria-controls="start"
+          aria-selected="true">Start</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Basic
+          Connection</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="kerberos-tab" data-toggle="tab" href="#kerberos" role="tab" aria-controls="kerberos"
@@ -38,52 +42,111 @@
     </ul>
 
     <div class="py-5 text-center">
-      <h2>Tableau Identity Store Configuration Tool</h2>
-      <p class="lead">This tool will take you through all of the options and create a JSON file to use during
-        installation.</p>
+      <div class="col-md-8 order-md-1 mx-auto">
+        <h2>Tableau Identity Store Configuration Tool</h2>
+        <p class="lead">Configure your LDAP settings for Tableau 2018.3+ and output them in either a JSON Config file
+          for
+          installation or TSM commands for adjusting settings.</p>
+      </div>
+    </div>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="display:none;">
+      <div id="alertText">
+        placeholder
+      </div>
+      <button type="button" class="close" aria-label="Close" id="dismissAlert">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     <div class="tab-content">
-      <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="tab-pane active" id="start" role="tabpanel" aria-labelledby="start-tab">
+        <div class="col-md-8 order-md-1 mx-auto">
+          <div class="mb-3">
+            <h3>Instructions</h3>
+            This tool can be used for many different purposes.
+            <ol>
+              <li>
+                <b>Brand new installation</b>
+                <br>
+                If you are starting a brand new configuration and want to create an LDAP template then press the big
+                blue
+                button to get started and will be able to create a new template.
+              </li>
+              <li>
+                <b>Modifying or troubleshooting LDAP configurations</b>
+                <br>
+                If your LDAP configuration is not correctly connecting or retrieving groups/users you can use this tool
+                to make changes and output the TSM commands to configure Tableau.
+              </li>
+            </ol>
+
+          </div>
+
+          <form class="needs-validation" id='uploadform' novalidate>
 
 
+            <div class="custom-control custom-radio">
+              <input id="startScratch" name="uploadSelect" type="radio" class="custom-control-input" value='scratch'
+                checked required>
+              <label class="custom-control-label" for="startScratch">Start from scratch</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input id="uploadYml" name="uploadSelect" type="radio" class="custom-control-input" value='uploadYml'
+                required>
+              <label class="custom-control-label" for="uploadYml">Paste settings from workgroup.yml *directions needed*</label>
+            </div>
+            <!--
+            <div class="custom-control custom-radio">
+              <input id="uploadJSON" name="uploadSelect" type="radio" class="custom-control-input" value='uploadConfig'
+                required>
+              <label class="custom-control-label" for="uploadJSON">NOT IMPLEMENTED YET. Paste settings from JSON import
+                *directions needed*</label>
+            </div>
+            -->
+            <textarea class="form-control" rows="5" id="upload" style="display: none;"></textarea>
+          </form>
 
+          <button class="btn btn-primary btn-lg btn-block mt-3" id='uploadFormSubmit'>Go to Basic Connection
+            Information</button>
+        </div>
+      </div>
 
-        <div class="col-md-8 order-md-1 mx-auto id=" basicConnection">
+      <div class="tab-pane" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="col-md-8 order-md-1 mx-auto" id="basicConnection">
           <h4 class="mb-3">LDAP Connection Settings</h4>
           <form class="needs-validation" id='idstoreform' novalidate>
 
 
 
             <div class="mb-3">
-                <label for="domain">LDAP Domain</label>
-                <input type="text" class="form-control" id="domain" placeholder="mycompany.com" required>
-                <div class="invalid-feedback" style="width: 100%;">
-                  The LDAP domain is required.
-                </div>
+              <label for="domain">LDAP Domain</label>
+              <input type="text" class="form-control" id="domain" placeholder="mycompany.com" required>
+              <div class="invalid-feedback" style="width: 100%;">
+                The LDAP domain is required.
               </div>
-  
-              <div class="mb-3">
-                <label for="root">Root <span class="text-muted" id="rootnote">(Will populate from Domain)</span>
-                  <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Root.  If you do not use a dc component in the LDAP root or you want to specify a more complex root you need to set the LDAP root. Use the 'o=my,u=root' format. For example, for the domain, example.lan, the root would be 'o=example,u=lan'.">
-  
-                </label>
-                <input type="text" class="form-control" id="root" placeholder="If not dc=mycompany,dc=com enter your root entry.">
-                <div class="invalid-feedback">
-                  Please enter a valid root.
-                </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="root">Root <span class="text-muted" id="rootnote">(Will populate from Domain)</span>
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Root.  If you do not use a dc component in the LDAP root or you want to specify a more complex root you need to set the LDAP root. Use the 'o=my,u=root' format. For example, for the domain, example.lan, the root would be 'o=example,u=lan'.">
+
+              </label>
+              <input type="text" class="form-control" id="root" placeholder="If not dc=mycompany,dc=com enter your root entry.">
+              <div class="invalid-feedback">
+                Please enter a valid root.
               </div>
+            </div>
 
 
-              <div class="mb-3">
+            <div class="mb-3">
 
-                  <label for="hostname">LDAP Server Address
-                    <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Server address.  Most often it will be in the standard dot notation but an ip address is also valid.">
-                  </label>
-                  <input type="text" class="form-control" id="hostname" placeholder="ldap.mycompany.com" required>
-                  <div class="invalid-feedback">
-                    Please enter your valid LDAP serer address.
-                  </div>
-                </div>
+              <label for="hostname">LDAP Server Address
+                <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="This is the LDAP Server address.  Most often it will be in the standard dot notation but an ip address is also valid.">
+              </label>
+              <input type="text" class="form-control" id="hostname" placeholder="ldap.mycompany.com" required>
+              <div class="invalid-feedback">
+                Please enter your valid LDAP serer address.
+              </div>
+            </div>
 
             <div class="row">
 
@@ -106,43 +169,54 @@
 
 
               </div>
+
               <div class="col-md-6 mb-3">
-                <div class="mb-3">
-                  <label for="portNumber">Port Number<span class="text-muted" id="portnote">(Default standard port is 389, LDAPS is 636.)</span></label>
-                  <input type="number" class="form-control" id="portNumber" value="389"
-                    required>
+                <div class="mb-3" id="portNumberDiv">
+                  <label for="portNumber">Port Number<span class="text-muted" id="portnote">(Default standard port is
+                      389)</span></label>
+                  <input type="number" class="form-control" id="portNumber" value="389" required>
+                  <div class="invalid-feedback" style="width: 100%;">
+                    Port is required.
+                  </div>
+                </div>
+
+                <div class="mb-3" id="sslPortNumberDiv" style="display: none;">
+                  <label for="sslPortNumber">Port Number<span class="text-muted" id="portnote">(Default LDAPS is 636)</span></label>
+                  <input type="number" class="form-control" id="sslPortNumber" value="" required>
                   <div class="invalid-feedback" style="width: 100%;">
                     Port is required.
                   </div>
                 </div>
               </div>
-            </div>
 
 
 
 
 
 
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="username">LDAP User Name</label>
-                <input type="text" class="form-control" id="username" placeholder="username" required>
-                <div class="invalid-feedback">
-                  Name is required
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="username">LDAP User Name</label>
+                  <input type="text" class="form-control" id="username" placeholder="username" required>
+                  <div class="invalid-feedback">
+                    Name is required
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="password">Password
+                    <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If you do not want to input the password here, you can edit it in the config file when you download it.">
+                  </label>
+                  <input type="text" class="form-control" id="password" placeholder="password (see tooltip)" required>
+                  <div class="invalid-feedback">
+                    Password is required
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6 mb-3">
-                <label for="password">Password</label>
-                <input type="text" class="form-control" id="password" placeholder="password" required>
-                <div class="invalid-feedback">
-                  Password is required
-                </div>
-              </div>
+
+
+              <hr class="mb-4">
             </div>
-
-
-            <hr class="mb-4">
-
           </form>
           <button class="btn btn-primary btn-lg btn-block" id='idstoreformSubmit'>Continue to Kerberos Connection
             Information</button>
@@ -175,25 +249,26 @@
             </div>
 
 
-
-
+            <div class="mb-3">
+              <label for="bind">Binding Type:</label>
+              <input type="text" class="form-control" id="bind" value="simple" readonly>
+            </div>
 
 
             <div id='kerberosEnabledGroup' style="display: none;" class="mb-3">
 
               <label for="kerberosPrincipal">What is the Kerberos Principal?</label>
-              <input type="text" class="form-control" id="kerberosPrincipal" placeholder="server principal name">
-              <div class="invalid-feedback" style="width: 100%;">
-                The Principal is required.
-              </div>
+              <input type="text" class="form-control" id="kerberosPrincipal" placeholder="user@domain.com">
+
 
 
           </form>
-          <div class="mt-3">See documentation for importing Config and Keytab file. <a href='https://onlinehelp.tableau.com/current/server/en-us/config_kerberos.htm'>Configure Kerberos</a></a></div>
+          <div class="mt-3">See documentation for importing Config and Keytab file. <a href='https://onlinehelp.tableau.com/current/server/en-us/config_kerberos.htm'>Configure
+              Kerberos</a></a></div>
         </div>
-          <button class="btn btn-primary btn-lg btn-block" id='kerberosFormSubmit'>Continue to User Query/Filter
-            Information</button>
-        
+        <button class="btn btn-primary btn-lg btn-block" id='kerberosFormSubmit'>Continue to User Query/Filter
+          Information</button>
+
       </div>
 
     </div>
@@ -203,7 +278,8 @@
         <form class="needs-validation" id='userform' novalidate>
 
           <div class="mb-3">
-            <label for="userBaseDn">User Base DN <span class="text-muted" id="userBaseDnNote">(Must include overall root.)</span>
+            <label for="userBaseDn">User Base DN <span class="text-muted" id="userBaseDnNote">(Must include overall
+                root.)</span>
               <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
             </label>
             <input type="text" class="form-control" id="userBaseDn" value="o=users">
@@ -218,7 +294,8 @@
 
           <div class="mb-3">
             <label for="userClassNames">Class Names <span class="text-muted">(Optional)</span>
-              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).">
+              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your group object classes don't contain &quot;group&quot; then specify the classnames here (eg &quot;group1, group2&quot;).  If your userClass names include commas, you must escape them with a backslash (\). For example, if you have a group name, 'Names, top', then enter &quot;Names\, top&quot;
+              ">
             </label>
             <input type="text" class="form-control" id="userClassNames" placeholder="userclass1, userclass2">
           </div>
@@ -260,14 +337,12 @@
             <label for="userJpegPhoto">JPEG Photo<span class="text-muted">(Optional)</span></label>
             <input type="text" class="form-control" id="userJpegPhoto" placeholder="photo">
           </div>
-          
-          
-          <!--  Not used by Tableau 
-          
-            <div class="mb-3">
+
+
+          <div class="mb-3">
             <label for="userMemberOf">Member Of<span class="text-muted">(Optional)</span></label>
             <input type="text" class="form-control" id="userMemberOf" placeholder="">
-          </div> -->
+          </div>
 
         </form>
         <button class="btn btn-primary btn-lg btn-block" id='userFormSubmit'>Continue to Group Settings</button>
@@ -283,7 +358,8 @@
         <form class="needs-validation" id='groupform' novalidate>
 
           <div class="mb-3">
-            <label for="groupBaseDn">Group Base DN <span class="text-muted" id='groupBaseDnNote'>(This must include the overall root.)</span>
+            <label for="groupBaseDn">Group Base DN <span class="text-muted" id='groupBaseDnNote'>(This must include the
+                overall root.)</span>
               <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="If your groups are stored in a different base organization, please specify it here (eg o=groups).">
             </label>
             <input type="text" class="form-control" id="groupBaseDn" value="o=groups">
@@ -303,10 +379,12 @@
             <input type="text" class="form-control" id="groupClassNames" placeholder="groupclass1, groupclass2">
           </div>
 
-
           <h5 class="mb-3">Attributes</h5>
           <div class="mb-3">
-            <label for="groupGroupname">Group Name</label>
+            <label for="groupGroupname">Group Name
+              <img src="open-iconic/svg/info.svg" alt="Info" data-toggle="tooltip" data-placement="top" title="          If your group names include commas, you must escape them with a backslash (\). For example, if you have a group name, 'groupOfNames, top', then enter &quot;groupOfNames\, top&quot;"
+                .>
+            </label>
             <input type="text" class="form-control" id="groupGroupname" value="groupname">
           </div>
 
@@ -322,7 +400,7 @@
           </div>
 
           <div class="mb-3">
-            <label for="groupMember">Member Of<span class="text-muted">(Optional)</span></label>
+            <label for="groupMember">Member<span class="text-muted">(Optional)</span></label>
             <input type="text" class="form-control" id="groupMember" placeholder="member">
           </div>
 
@@ -361,9 +439,45 @@
     <div class="tab-pane" id="finalize" role="tabpanel" aria-labelledby="finalize-tab">
       <div class="col-md-8 order-md-1 mx-auto">
         <h4 class="mb-3">Finalize - You made it!</h4>
-        <div class="form-group">
-          <label for="comment">Copy these settings into a file for import with LDAP:</label>
+
+        <div class="mb-3">
+
+          <form class="needs-validation" id='finalizeform' novalidate>
+            <div class="custom-control custom-radio">
+              <input id="configOutput" name="outputSelect" type="radio" class="custom-control-input" value='config'
+                checked required>
+              <label class="custom-control-label" for="configOutput">View configuration file for install</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input id="tsmOutputAllRadio" name="outputSelect" type="radio" class="custom-control-input" value='tsmAll'
+                required>
+              <label class="custom-control-label" for="tsmOutputAllRadio">View All TSM commands </label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input id="tsmOutputChangedRadio" name="outputSelect" type="radio" class="custom-control-input" value='tsmChanged'
+                required>
+              <label class="custom-control-label" for="tsmOutputChangedRadio">View only TSM commands for values that
+                have changed</label>
+            </div>
+          </form>
+
+
+        </div>
+        <div class="form-group" id="copyConfigDiv">
+          <label for="output">Copy the settings below into a file for import with Tableau, or
+            <a href='#' id="download">download</a> a file.
+          </label>
           <textarea class="form-control" rows="50" id="output" readonly></textarea>
+        </div>
+        <div class="form-group" id="copyTSMAllDiv" style="display: none;">
+          <label for="tsmOutputAll">Copy/paste the relevant commands into your terminal window.
+          </label>
+          <textarea class="form-control" rows="50" id="tsmOutputAll" readonly></textarea>
+        </div>
+        <div class="form-group" id="copyTSMChangedDiv" style="display: none;">
+          <label for="tsmOutputChanged">Copy/paste the relevant commands into your terminal window.
+          </label>
+          <textarea class="form-control" rows="50" id="tsmOutputChanged" readonly></textarea>
         </div>
       </div>
     </div>
@@ -371,12 +485,9 @@
 
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">&copy; 2017-2018 Company Name</p>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="#">Privacy</a></li>
-      <li class="list-inline-item"><a href="#">Terms</a></li>
-      <li class="list-inline-item"><a href="#">Support</a></li>
-    </ul>
+    <p class="mb-1">Provided as a Community Supported Tool<br>
+      on behalf of Tableau.</p>
+
   </footer>
   </div>
 
