@@ -195,35 +195,37 @@
 
 
 
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="username">LDAP User Name</label>
-                  <input type="text" class="form-control" id="username" placeholder="username" required>
-                  <div class="invalid-feedback">
-                    Name is required
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="password">Password
-                    <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="If you do not want to input the password here, you can edit it in the config file when you download it.">
-                  </label>
-                  <input type="password" class="form-control" id="password" name="password" placeholder="password (see tooltip)" required>
-                  <div class="invalid-feedback">
-                    Password is required
-                  </div>
-                  <label class="text-muted" for="passwordToggle">Show/Hide Password</label>
-                  <input type="checkbox" id="passwordToggle">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="username">LDAP User Name</label>
+                <input type="text" class="form-control" id="username" placeholder="username" required>
+                <div class="invalid-feedback">
+                  Name is required
                 </div>
               </div>
-
-
-              <hr class="mb-4">
+              <div class="col-md-6 mb-3">
+                <label for="password">Password
+                  <img src="images/info.png" alt="Info" data-toggle="tooltip" data-placement="top" title="If you do not want to input the password here, you can edit it in the config file when you download it.">
+                </label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="password (see tooltip)"
+                  required>
+                <div class="invalid-feedback">
+                  Password is required
+                </div>
+                <label class="text-muted" for="passwordToggle">Show/Hide Password</label>
+                <input type="checkbox" id="passwordToggle">
+              </div>
             </div>
+
+
+
+
           </form>
           <button class="btn btn-primary btn-lg btn-block" id='idstoreformSubmit'>Continue to Kerberos Connection
             Information</button>
         </div>
-     
+      </div>
+
 
       <div class="tab-pane" id="kerberos" role="tabpanel" aria-labelledby="kerberos-tab">
 
