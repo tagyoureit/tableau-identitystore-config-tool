@@ -1,0 +1,42 @@
+{
+    "configEntities": {
+        "identityStore": {
+            "_type": "identityStoreType",
+            "type": "activedirectory",
+            "domain": "testDomain.net",
+            "root": "dc=testDomain,dc=net",
+            "nickname": "",
+            "hostname": "<server>.testDomain.net",
+            "port": "333",
+            "sslPort": "888",
+            "directoryServiceType": "openldap",
+            "bind": "gssapi",
+            "username": "testuser",
+            "password": "password",
+            "kerberosPrincipal": "kerberosPrincipal",
+            "identityStoreSchemaType": {
+                "distinguishedNameAttribute": "dnAttr",
+                "userBaseDn": "o=users,dc=testDomain,dc=net",
+                "userBaseFilter": "userBaseFilter",
+                "userUsername": "userName",
+                "userDisplayName": "userDisplay",
+                "userEmail": "userEmail",
+                "userCertificate": "userCert",
+                "userThumbnail": "userThumb",
+                "userJpegPhoto": "userJpeg",
+                "memberOf": "",
+                "groupBaseDn": "o=groups,dc=testDomain,dc=net",
+                "groupClassNames": "groupclassnames1, classnames2",
+                "groupBaseFilter": "(o=users,dc=test,dc=com)",
+                "groupName": "groups",
+                "groupEmail": "groupemail",
+                "groupDescription": "groupDesc",
+                "member": "memberAttr",
+                "serverSideSorting": "false",
+                "rangeRetrieval": "false",
+                "membersRetrievalPageSize": "1500",
+                "userClassNames": "userClass1, userClass2"
+            }
+        }
+    }
+}

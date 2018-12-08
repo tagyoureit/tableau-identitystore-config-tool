@@ -227,12 +227,12 @@
         }
     }
 
-    // make a copy of the default for when users import data
-    var uploadedVals = JSON.parse(JSON.stringify(blankTemplate))
-    var resetUploadedVals = function () {
-        uploadedVals = JSON.parse(JSON.stringify(blankTemplate))
-
+    // make a copy of the default for when users import YML settings
+    var uploadedContent = JSON.parse(JSON.stringify(blankTemplate))
+    var resetUploadedContent = function () {
+        uploadedContent = JSON.parse(JSON.stringify(blankTemplate))
     }
+
     // this function formats "tsm configuration set..." commands given a particular variable
     var formatTSMAllCommands = function () {
 
@@ -328,9 +328,9 @@
     })
 
     // toggle password visibility
-    $('#passwordToggle').on('click', function(e){
-        if ($('#idstoreform :input[name=password]').attr('type')==="password"){
-            $('#idstoreform :input[name=password]').attr('type','text')
+    $('#passwordToggle').on('click', function (e) {
+        if ($('#idstoreform :input[name=password]').attr('type') === "password") {
+            $('#idstoreform :input[name=password]').attr('type', 'text')
         }
         else {
             $('#idstoreform :input[name=password]').attr('type', 'password')
@@ -472,7 +472,7 @@
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.membersRetrievalPageSize = miscform.membersRetrievalPageSize.value
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.rangeRetrieval = miscform.rangeRetrieval.value
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.serverSideSorting = miscform.serverSideSorting.value
-        
+
         // kerberos
         LDAPConfigTemplate.configEntities.identityStore.kerberosPrincipal = kerberosform.kerberosPrincipal.value
         LDAPConfigTemplate.configEntities.identityStore.bind = kerberosform.bind.value
@@ -567,13 +567,13 @@
         download_file("config.json", JSON.stringify(LDAPConfigTemplate, null, 4))
     })
 
-     // download all TSM commands file
-     $('#downloadTSMAll').on('click', function () {
+    // download all TSM commands file
+    $('#downloadTSMAll').on('click', function () {
         download_file("All_TSM_Commands.txt", $('#tsmOutputAll').html())
     })
 
-     // download changed TSM file
-     $('#downloadTSMChanged').on('click', function () {
+    // download changed TSM file
+    $('#downloadTSMChanged').on('click', function () {
         download_file("Changed_TSM_Commands.txt", $('#tsmOutputChanged').html())
     })
 
@@ -607,8 +607,144 @@
         return ret;
     }
 
+    var uploadType = "none"
+
     // when the user changes focus off of the upload text area
     $("#upload").on('change', function () {
+        //reset uploaded vals var
+        resetUploadedContent()
+
+        var uploadIsJSON = false;
+        try {
+            uploadedContent = JSON.parse($('#upload').val())
+            uploadIsJSON = true;
+            if (debug) console.log("Uploaded content is JSON")
+            // only set this once
+            if (uploadType === "none")
+                uploadType = "json"
+        }
+        catch (err) {
+            if (debug) console.log("Uploaded content is YML")
+            // only set this once
+            if (uploadType === "none")
+                uploadType = "yml"
+        }
+
+        // test to see if user switched upload types
+        // if so, abort.  in the future we can reset the entire form
+        // but for now just cancel the input
+        if ((uploadIsJSON && uploadType === "json")){
+            processJSONUpload();
+        } 
+        
+        else if (!uploadIsJSON && uploadType === "yml"){
+                // not JSON, so parse YML
+                processYMLUpload();
+            
+        }
+        else {
+            var resultStr = "This tool does not support switching uploaded content types (JSON to YML or YML to JSON).<br>Please reload the page and start over."
+            $('#alertText').html(resultStr)
+            $('.alert').show()
+        }
+
+
+        // do this last because of we have an sslPort or other radio change we don't want to capture it.
+        arrayOfChanged = [];  // reset array
+
+    })
+
+
+    var processJSONUpload = function () {
+        var resultStr = "";  // hold any errors.
+        var countAll = 0; // count of all keys
+        var countSuccess = 0; // count of imported keys
+        var countSkipped = 0;  // count of skipped keys
+
+        var l1 = "configEntities"
+        var l2 = "identityStore"
+        var l3 = "identityStoreSchemaType"
+        var l2Str = "configEntities.identityStore."
+        var l3Str = "configEntities.identityStore.identityStoreSchemaType."
+
+        // loop through configEntities.identityStore keys
+        var keys = Object.keys(uploadedContent[l1][l2])
+        for (const key of keys) {
+            if (debug) console.log("mapping uploaded key: ", key)
+            if (debug) console.log("mapping uploaded config key: " + mapTSMtoInputs[l2Str + key] + "=\"" + uploadedContent[l1][l2][key] + "\"")
+            
+
+
+            /*
+
+                                // set radio buttons for selection
+                                if (split[2] === 'port' && (entryArr[1] !== 0 || entryArr[1] !== "")){
+                                    prevPort = entryArr[1]
+                                }                                
+                                if (split[2] === 'sslPort' && (entryArr[1] !== 0 || entryArr[1] !== "")){
+                                    $("#sslPort").click()
+                                    prevSslPort = entryArr[1]
+                                }
+                                if (split[2] === 'bind' && entryArr[1] === "gssapi")
+                                    $("#yeskerberos").click()
+
+            */
+            // capture port settings
+            if (key==="port"){
+                prevPort = uploadedContent[l1][l2][key]
+                $('#port').click()
+
+            }
+            else if (key === "sslPort" && uploadedContent[l1][l2][key]!=="" && uploadedContent[l1][l2][key]!==0){
+                prevSslPort = uploadedContent[l1][l2][key]
+                $('#sslPort').click()
+            }
+            if (key === "bind" && uploadedContent[l1][l2][key]==="gssapi"){
+                $("#yesKerberos").click()
+            }
+            else if (key === "bind" && uploadedContent[l1][l2][key]==="simple"){
+                $('#noKerberos').click()
+            }
+            
+            if (mapTSMtoInputs.hasOwnProperty(l2Str + key)) {
+                eval(mapTSMtoInputs[l2Str + key] + "=\"" + uploadedContent[l1][l2][key] + "\"")
+                countSuccess += 1;
+                countAll += 1;
+            }
+            else {
+                resultStr += key + "<br>"
+                countSkipped += 1;
+                countAll += 1;
+            }
+
+        }
+
+        // loop through configEntities.identityStore.identityStoreSchemaType keys
+        keys = Object.keys(uploadedContent[l1][l2][l3])
+        for (const key of keys) {
+            if (debug) console.log("mapping uploaded key: ", key)
+            if (debug) console.log("mapping uploaded config key: " + mapTSMtoInputs[l3Str + key] + "=\"" + uploadedContent[l1][l2][l3][key] + "\"")
+            if (mapTSMtoInputs.hasOwnProperty(l3Str + key)) {
+                eval(mapTSMtoInputs[l3Str + key] + "=\"" + uploadedContent[l1][l2][l3][key] + "\"")
+                countSuccess += 1;
+                countAll += 1;
+            }
+            else {
+                resultStr += key + "<br>"
+                countSkipped += 1;
+                countAll += 1;
+            }
+
+        }
+
+        resultStr = "Total lines: " + countAll + "<br>Imported: " + countSuccess + " keys<br>&nbsp;<br>Skipped " + countSkipped + " key/value pairs:<br>" + resultStr
+        $('#alertText').html(resultStr)
+        $('.alert').show()
+
+    }
+
+    // parse YML input
+    var processYMLUpload = function () {
 
         var mapTsmConfigKeyToTemplate = swap(mapTemplateToTsmConfigKey)
         var resultStr = "";  // hold any errors.
@@ -616,12 +752,6 @@
         var countSuccess = 0; // count of imported keys
         var countSkipped = 0;  // count of skipped keys
 
-
-        //reset uploaded vals var
-        resetUploadedVals()
-
-
-        // parse YML input
         // if statement for assessing if we have only one line
         var lines;
         // >= 0 because a blank line with return will yield 0 which would otherwise be false
@@ -706,17 +836,26 @@
                                 // assign input YML values to object for comparison later.
                                 var split = mapTsmConfigKeyToTemplate[entryArr[0]].split('.')
                                 if (split.length === 3) {
-                                    uploadedVals[split[0]][split[1]][split[2]] = entryArr[1]
+                                    uploadedContent[split[0]][split[1]][split[2]] = entryArr[1]
                                 }
                                 else {
-                                    uploadedVals[split[0]][split[1]][split[2]][split[3]] = entryArr[1]
+                                    uploadedContent[split[0]][split[1]][split[2]][split[3]] = entryArr[1]
                                 }
 
                                 // set radio buttons for selection
-                                if (split[2] === 'sslPort' && (entryArr[1] !== 0 || entryArr[1] !== ""))
+                                if (split[2] === 'port' && (entryArr[1] !== 0 || entryArr[1] !== "")){
+                                    prevPort = entryArr[1]
+                                    $('#port').click()
+                                }                                
+                                if (split[2] === 'sslPort' && (entryArr[1] !== 0 || entryArr[1] !== "")){
                                     $("#sslPort").click()
+                                    prevSslPort = entryArr[1]
+                                }
                                 if (split[2] === 'bind' && entryArr[1] === "gssapi")
                                     $("#yeskerberos").click()
+                                else if (split[2] === 'bind' && entryArr[1] === "simple"){
+                                    $('#noKerberos').click()
+                                }
 
                                 if (debug) console.log('Matched ' + entry)
                                 countSuccess++;
@@ -756,11 +895,7 @@
         resultStr = "Total lines: " + countAll + "<br>Imported: " + countSuccess + " keys<br>&nbsp;<br>Skipped " + countSkipped + " key/value pairs:<br>" + resultStr
         $('#alertText').html(resultStr)
         $('.alert').show()
-
-        // do this last because of we have an sslPort or other radio change we don't want to capture it.
-        arrayOfChanged = [];  // reset array
-
-    })
+    }
 
 })();
 

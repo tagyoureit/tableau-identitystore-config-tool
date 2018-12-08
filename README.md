@@ -4,11 +4,17 @@ This tool is designed to help you create/modify your LDAP settings for Tableau S
 
 Run this tool on [Github Pages](https://tagyoureit.github.io/tableau-identitystore-config-tool/).
 
+#### Change Log
+12/8/18
+* Added JSON configuration file import (Note: you cannot switch between JSON and YML import)
+* Added ability to download TSM Output (all or changed)
+
 ## Inputs and Outputs
 
 ### Inputs are:
 * Directly inputted via the UI
 * Import YAML settings
+* Import JSON Configuration File
 
 ### Output are:
 * a JSON [identity store](https://onlinehelp.tableau.com/current/server-linux/en-us/plan_identity_store.htm) template/file to use during installation. 
@@ -58,8 +64,16 @@ wgserver.domain.ssl_port: 636
 * Navigate to `<TableauServerRootDirectory>/\Tableau Server\data\tabsvc\services\vizportal_0.<version>\config>`
 * Run `findstr "wgserver.domain" workgroup.yml`
 
-3. Copy the contents into the "Paste settings from workgroup.yml" import box.
-![Import box](images/StartScreenImport.jpeg)
+3. Copy the contents into the "Paste settings from JSOMN import file workgroup.yml" import box.
+
+YML
+
+![Import box](images/StartScreenImportYML.jpeg)
+
+Or JSON
+
+![Import box](images/StartScreenImportJSON.jpeg)
+
 4. Click Load Settings. An informational message will be shown.  *Note: not all settings will be imported.  Some are not directly related to LDAP and some cannot be changed.*
 ![Import message](images/ImportMessage.jpeg)
 5. Make any changes on the subsequent pages.
