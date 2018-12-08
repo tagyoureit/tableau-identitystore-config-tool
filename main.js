@@ -567,6 +567,16 @@
         download_file("config.json", JSON.stringify(LDAPConfigTemplate, null, 4))
     })
 
+     // download all TSM commands file
+     $('#downloadTSMAll').on('click', function () {
+        download_file("All_TSM_Commands.txt", $('#tsmOutputAll').html())
+    })
+
+     // download changed TSM file
+     $('#downloadTSMChanged').on('click', function () {
+        download_file("Changed_TSM_Commands.txt", $('#tsmOutputChanged').html())
+    })
+
     // from https://stackoverflow.com/questions/8310657/how-to-create-a-dynamic-file-link-for-download-in-javascript
     var download_file = function (name, contents, mime_type) {
         mime_type = mime_type || "text/plain";
