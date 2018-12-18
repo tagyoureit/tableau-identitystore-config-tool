@@ -4,10 +4,16 @@ This tool is designed to help you create/modify your LDAP settings for Tableau S
 
 Run this tool on [Github Pages](https://tagyoureit.github.io/tableau-identitystore-config-tool/).
 
+
+#### Support Status
+This open source tool is not supported by Tableau. Report bugs via the project's [issue tracker](https://github.com/tagyoureit/tableau-identitystore-config-tool/issues).
+
+
 #### Change Log
-12/8/18
-* Added JSON configuration file import (Note: you cannot switch between JSON and YML import)
-* Added ability to download TSM Output (all or changed)
+
+* 12/17/18 -Changed support languange.
+* 12/8/18 - Added JSON configuration file import (Note: you cannot switch between JSON and YML import)
+* 12/8/18 - Added ability to download TSM Output (all or changed)
 
 ## Inputs and Outputs
 
