@@ -536,7 +536,7 @@
     // be imported in the configEntity template (as of 2019.1)
     $('#userClassNames, #groupClassNames').on('change', function () {
         if (!alertClassOnce) {
-            $('#alertText').html('Please see the <a href="README.md#known-issues" class="alert-link">Readme</a> for important information about using Group Names and Class Names in an import template. <p>(This alert will only show once.)')
+            $('#alertText').html('Please see the <a href="https://github.com/tagyoureit/tableau-identitystore-config-tool#known-issues" class="alert-link" target="_blank">Readme</a> for important information about using Group Names and Class Names in an import template. <p>(This alert will only show once.)')
             $('.alert').show()                
             alertClassOnce=true
         }
