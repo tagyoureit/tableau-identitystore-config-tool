@@ -531,6 +531,17 @@
         addArrayOfChanged("kerberosform.kerberosPrincipal.value")
     })
 
+    let alertClassOnce = false;
+    // This is to address the bug that userClassNames and groupClassNames cannot
+    // be imported in the configEntity template (as of 2019.1)
+    $('#userClassNames, #groupClassNames').on('change', function () {
+        if (!alertClassOnce) {
+            $('#alertText').html('Please see the <a href="README.md#known-issues" class="alert-link">Readme</a> for important information about using Group Names and Class Names in an import template. <p>(This alert will only show once.)')
+            $('.alert').show()                
+            alertClassOnce=true
+        }
+    })
+
     // handle user button
     $('#userFormSubmit').on('click', function () {
         if (debug) console.log('Results after User Information is completed.')

@@ -14,6 +14,7 @@ This open source tool is not supported by Tableau. Report bugs via the project's
 * 12/17/18 -Changed support languange.
 * 12/8/18 - Added JSON configuration file import (Note: you cannot switch between JSON and YML import)
 * 12/8/18 - Added ability to download TSM Output (all or changed)
+* 4/10/19 - Added notes about userClassNames/groupClassNames not being available in the configEntitities template [(see below)](#known-issues)
 
 ## Inputs and Outputs
 
@@ -89,8 +90,56 @@ Or JSON
 9. If you recieve valid responses for the above two commands then commit the changes by running [tsm pending-changes apply](https://onlinehelp.tableau.com/current/server-linux/en-us/cli_pending-changes.htm#pending-changes-apply).  If not, return to Step 5.
 
 
+<a name="known-issues"></a>
+# Known Issues
+There are issues with importing a brand new configEntities template that has userClassName and groupClassName attributes set.  You can work around this with one of the following methods:
 
+Method 1 - Import the TSM configKeys directly
+1. Remove the userClassNames and/or groupClassNames from the configEntities/identityStore JSON.
+1. Add them at the end of the template in this manner (TSM will directly import the proper keys):
 
+```
+Before: 
+{
+    "configEntities": {
+        "identityStore": {
+           ...
+            "identityStoreSchemaType": {
+               ...
+                "groupClassNames": "GROUPCLASS",
+                ...
+                "userClassNames": "USERCLASS"
+            }
+        }
+    }
+}
+
+After:
+{
+    "configEntities": {
+        "identityStore": {
+           ...
+            "identityStoreSchemaType": {
+               ...
+            }
+        }
+    },
+    "configKeys" : 
+    {
+        "wgserver.domain.ldap.user.classnames": "USERCLASS",
+        "wgserver.domain.ldap.group.classnames": "GROUPCLASS"
+    }
+}
+```
+
+Method 2 - Import the template and then add the keys via the command line
+1. Remove the userClassNames and/or groupClassNames from the configEntities/identityStore JSON (see above).
+1. Run the following commands on the command line before you run verify-user/group-mappings.
+```
+// Replace USERCLASS and GROUPCLASS with your company specific values.
+tsm configuration set -k wgserver.domain.ldap.user.classnames -v USERCLASS
+tsm configuration set -k wgserver.domain.ldap.group.classnames -v GROUPCLASS
+```
 
 
 # LDAP Settings Reference
