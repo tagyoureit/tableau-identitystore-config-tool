@@ -256,7 +256,6 @@
         return tsmCommands
     }
 
-
     // this function formats "tsm configuration set..." commands given a particular variable
     var formatTSMChangedCommands = function () {
 
@@ -288,7 +287,6 @@
                 tsmCommands += "tsm configuration set -k " + mapTemplateToTsmConfigKey[mapInputstoTSM[arrayOfChanged[i]]] + " -v \"\"\r\n"
             }
             else {
-
                 tsmCommands += "tsm configuration set -k " + mapTemplateToTsmConfigKey[mapInputstoTSM[arrayOfChanged[i]]] + " -v " + val + "\r\n"
 
                 if (debug) console.log("Keys changed from input values")
@@ -296,9 +294,7 @@
             }
         }
         return tsmCommands
-
     }
-
 
     // this is the command to update the output in the finalize tab
     var updateFinalize = function () {
@@ -308,7 +304,6 @@
         $("#tsmOutputAll").html(formatTSMAllCommands())
         $("#tsmOutputChanged").html(formatTSMChangedCommands())
         // differencesInTSM()
-
     }
 
     var addArrayOfChanged = function (changed) {
@@ -324,7 +319,6 @@
             var changed = $(this).closest('form')[0].id + "." + e.currentTarget.id + ".value"
             addArrayOfChanged(changed)
         }
-
     })
 
     // toggle password visibility
@@ -449,7 +443,7 @@
         // user settings
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.userBaseDn = userform.userBaseDn.value
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.userBaseFilter = userform.userBaseFilter.value
-        LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.userClassNames = userform.userClassNames.value
+        LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.userClassNames = userform.userClassNames.value.split(',');
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.distinguishedNameAttribute = userform.userdnAttribute.value
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.userUsername = userform.userUsername.value
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.userDisplayName = userform.userDisplayName.value
@@ -462,7 +456,7 @@
         // group settings
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.groupBaseDn = groupform.groupBaseDn.value
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.groupBaseFilter = groupform.groupBaseFilter.value
-        LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.groupClassNames = groupform.groupClassNames.value
+        LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.groupClassNames = groupform.groupClassNames.value.split(',')
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.groupName = groupform.groupGroupname.value
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.groupEmail = groupform.groupEmail.value
         LDAPConfigTemplate.configEntities.identityStore.identityStoreSchemaType.groupDescription = groupform.groupDescription.value
@@ -536,7 +530,7 @@
     // be imported in the configEntity template (as of 2019.1)
     $('#userClassNames, #groupClassNames').on('change', function () {
         if (!alertClassOnce) {
-            $('#alertText').html('Please see the <a href="https://github.com/tagyoureit/tableau-identitystore-config-tool#known-issues" class="alert-link" target="_blank">Readme</a> for important information about using Group Names and Class Names in an import template. <p>(This alert will only show once.)')
+            $('#alertText').html('If you are using 2018.1 or earlier - Please see the <a href="https://github.com/tagyoureit/tableau-identitystore-config-tool#known-issues" class="alert-link" target="_blank">Readme</a> for important information about using Group Names and Class Names in an import template. <p>This issue is fixed post 2018.1.<p>(This alert will only show once.)')
             $('.alert').show()                
             alertClassOnce=true
         }
@@ -683,23 +677,6 @@
         for (const key of keys) {
             if (debug) console.log("mapping uploaded key: ", key)
             if (debug) console.log("mapping uploaded config key: " + mapTSMtoInputs[l2Str + key] + "=\"" + uploadedContent[l1][l2][key] + "\"")
-            
-
-
-            /*
-
-                                // set radio buttons for selection
-                                if (split[2] === 'port' && (entryArr[1] !== 0 || entryArr[1] !== "")){
-                                    prevPort = entryArr[1]
-                                }                                
-                                if (split[2] === 'sslPort' && (entryArr[1] !== 0 || entryArr[1] !== "")){
-                                    $("#sslPort").click()
-                                    prevSslPort = entryArr[1]
-                                }
-                                if (split[2] === 'bind' && entryArr[1] === "gssapi")
-                                    $("#yeskerberos").click()
-
-            */
             // capture port settings
             if (key==="port"){
                 prevPort = uploadedContent[l1][l2][key]
@@ -727,7 +704,6 @@
                 countSkipped += 1;
                 countAll += 1;
             }
-
         }
 
         // loop through configEntities.identityStore.identityStoreSchemaType keys
@@ -745,7 +721,6 @@
                 countSkipped += 1;
                 countAll += 1;
             }
-
         }
 
         resultStr = "Total lines: " + countAll + "<br>Imported: " + countSuccess + " keys<br>&nbsp;<br>Skipped " + countSkipped + " key/value pairs:<br>" + resultStr
@@ -796,30 +771,18 @@
             $('#alertText').html(err)
             $('.alert').show()
         }
-
         if (debug) console.log(output);
-
-
-
         // update all forms to match input entry
         output.forEach(function (entry) {
-
-
-
             // var foundMatch = false;
             // if entries don't include : we need to catch it.
             try {
                 var entryArr = entry.split(':')
                 if (debug) console.log('trying to match... ' + entry)
-
-
-
-
                 var cannotImport = ['wgserver.domain.directoryservice.type', 'wgserver.domain.ldap.kerberos.conf', 'wgserver.domain.ldap.kerberos.keytab', 'wgserver.domain.fqdn', 'wgserver.domain.ldap.kerberos.login', 'wgserver.domain.ldap.guid', 'wgserver.domain.ldap.group.memberURL', 'wgserver.domain.nickname']
                 var otherReason = ['wgserver.domain.ldap.group.memberURL', 'wgserver.domain.nickname', 'wgserver.domain.ldap.connectionpool.enabled', 'wgserver.domain.ldap.connectionpool.timeout_in_ms']
                 if (entry.length > 5) {
                     entryArr[1] = entryArr[1].trim()
-
                     if (cannotImport.indexOf(entryArr[0]) !== -1) {
                         resultStr += entryArr[0] + " (cannot be changed)<br>"
                         countSkipped += 1
@@ -834,16 +797,13 @@
                         // if entries are null, treat as blank
                         if (entryArr[1] === "null")
                             entryArr[1] = ""
-
                         // only fill in form values for entres that have values
                         if (entryArr[1] !== "null" || entryArr[1] !== "") {
-
                             // try to match against a list of keys to see if it is valid
                             if (mapTsmConfigKeyToTemplate.hasOwnProperty(entryArr[0])) {
                                 // eval allows us to take a string (eg `idstoreform.username.value = "testuser"`)
                                 // and evaluate it as a statement
                                 eval(mapTSMtoInputs[mapTsmConfigKeyToTemplate[entryArr[0]]] + "=\"" + entryArr[1] + "\"")
-
                                 // assign input YML values to object for comparison later.
                                 var split = mapTsmConfigKeyToTemplate[entryArr[0]].split('.')
                                 if (split.length === 3) {
@@ -852,7 +812,6 @@
                                 else {
                                     uploadedContent[split[0]][split[1]][split[2]][split[3]] = entryArr[1]
                                 }
-
                                 // set radio buttons for selection
                                 if (split[2] === 'port' && (entryArr[1] !== 0 || entryArr[1] !== "")){
                                     prevPort = entryArr[1]
@@ -870,7 +829,6 @@
 
                                 if (debug) console.log('Matched ' + entry)
                                 countSuccess++;
-
                             }
                             else {
                                 // else for no match test
@@ -909,6 +867,3 @@
     }
 
 })();
-
-
-

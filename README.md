@@ -11,6 +11,7 @@ This open source tool is not supported by Tableau. Report bugs via the project's
 
 #### Change Log
 
+* 11/18/19 - userClassNames and groupClassNames are now returned as an array of strings only for the configuration file JSON used during import
 * 12/17/18 -Changed support languange.
 * 12/8/18 - Added JSON configuration file import (Note: you cannot switch between JSON and YML import)
 * 12/8/18 - Added ability to download TSM Output (all or changed)
@@ -91,7 +92,7 @@ Or JSON
 
 
 <a name="known-issues"></a>
-# Known Issues
+# 2018.1 and earlier - Known Issues
 There are issues with importing a brand new configEntities template that has userClassName and groupClassName attributes set.  You can work around this with one of the following methods:
 
 Method 1 - Import the TSM configKeys directly
@@ -106,9 +107,9 @@ Before:
            ...
             "identityStoreSchemaType": {
                ...
-                "groupClassNames": "GROUPCLASS",
+                "groupClassNames": ["GROUPCLASS"]
                 ...
-                "userClassNames": "USERCLASS"
+                "userClassNames": ["USERCLASS"]
             }
         }
     }
